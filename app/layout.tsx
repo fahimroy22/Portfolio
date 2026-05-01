@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Fahim Ahmed" }],
   creator: "Fahim Ahmed",
 
-  metadataBase: new URL("https://your-domain.com"), // 🔥 replace after deploy
+  metadataBase: new URL("https://portfolio-seven-virid-y2hacmkqbw.vercel.app"),
 
   openGraph: {
     title: "Fahim Ahmed | Full-Stack Developer",
     description:
       "Clean, scalable web products, dashboards, portfolios, and full-stack applications.",
-    url: "https://your-domain.com",
+    url: "https://portfolio-seven-virid-y2hacmkqbw.vercel.app",
     siteName: "Fahim Ahmed Portfolio",
     images: [
       {
