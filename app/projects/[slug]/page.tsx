@@ -1,9 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useSpring, useTransform, type Variants } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { useParams } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const caseStudies = {
   peerlearn: {
@@ -81,22 +87,34 @@ const caseStudies = {
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: 36 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
-      ease: "easeOut",
-    },
+    transition: { duration: 0.7, ease: "easeOut" },
   },
 };
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+}
 
 export default function CaseStudyPage() {
   const params = useParams();
   const slug = params.slug as keyof typeof caseStudies;
   const project = caseStudies[slug];
+
+  const isMobile = useIsMobile();
 
   const pageRef = useRef(null);
   const heroRef = useRef(null);
@@ -123,13 +141,13 @@ export default function CaseStudyPage() {
     mass: 0.4,
   });
 
-  const heroY = useTransform(heroProgress, [0, 1], [0, 150]);
-  const heroScale = useTransform(heroProgress, [0, 1], [1, 0.9]);
-  const heroOpacity = useTransform(heroProgress, [0, 0.85], [1, 0.28]);
+  const heroY = useTransform(heroProgress, [0, 1], isMobile ? [0, 32] : [0, 150]);
+  const heroScale = useTransform(heroProgress, [0, 1], isMobile ? [1, 0.98] : [1, 0.9]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.85], isMobile ? [1, 0.6] : [1, 0.28]);
 
-  const visualY = useTransform(storyProgress, [0, 1], [80, -90]);
-  const visualRotate = useTransform(storyProgress, [0, 1], [-2, 2]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, -320]);
+  const visualY = useTransform(storyProgress, [0, 1], isMobile ? [16, -16] : [80, -90]);
+  const visualRotate = useTransform(storyProgress, [0, 1], isMobile ? [0, 0] : [-2, 2]);
+  const glowY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, -60] : [0, -320]);
 
   if (!project) {
     return (
@@ -156,12 +174,12 @@ export default function CaseStudyPage() {
 
       <motion.div
         style={{ y: glowY }}
-        className="pointer-events-none fixed left-[-12%] top-[15%] h-[520px] w-[520px] rounded-full bg-emerald-400/10 blur-3xl"
+        className="pointer-events-none fixed left-[-12%] top-[15%] h-[280px] w-[280px] rounded-full bg-emerald-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl"
       />
 
       <motion.div
         style={{ y: visualY }}
-        className="pointer-events-none fixed right-[-12%] top-[35%] h-[560px] w-[560px] rounded-full bg-cyan-400/10 blur-3xl"
+        className="pointer-events-none fixed right-[-12%] top-[35%] h-[300px] w-[300px] rounded-full bg-cyan-400/10 blur-2xl md:h-[560px] md:w-[560px] md:blur-3xl"
       />
 
       <section className="relative mx-auto max-w-7xl">
@@ -174,41 +192,40 @@ export default function CaseStudyPage() {
           </Link>
         </motion.div>
 
-        {/* HERO */}
         <motion.section
           ref={heroRef}
           style={{ y: heroY, scale: heroScale, opacity: heroOpacity }}
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="relative min-h-[72vh] overflow-hidden rounded-[2.7rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-8 backdrop-blur-xl sm:p-10 md:p-16"
+          transition={{ duration: 0.75, ease: "easeOut" }}
+          className="relative min-h-[68vh] overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-white/10 to-white/[0.02] p-7 backdrop-blur-xl sm:p-10 md:min-h-[72vh] md:rounded-[2.7rem] md:p-16"
         >
           <motion.div
-            animate={{ x: [0, 44, -32, 0], y: [0, -28, 20, 0] }}
+            animate={isMobile ? {} : { x: [0, 44, -32, 0], y: [0, -28, 20, 0] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-10 top-10 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"
+            className="absolute left-6 top-6 h-48 w-48 rounded-full bg-emerald-400/20 blur-2xl md:left-10 md:top-10 md:h-72 md:w-72 md:blur-3xl"
           />
 
           <motion.div
-            animate={{ x: [0, -28, 34, 0], y: [0, 32, -22, 0] }}
+            animate={isMobile ? {} : { x: [0, -28, 34, 0], y: [0, 32, -22, 0] }}
             transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-0 top-0 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl"
+            className="absolute right-0 top-0 h-56 w-56 rounded-full bg-blue-500/20 blur-2xl md:h-96 md:w-96 md:blur-3xl"
           />
 
-          <div className="relative flex min-h-[56vh] flex-col justify-center">
-            <p className="mb-6 text-xs uppercase tracking-[0.4em] text-emerald-300">
+          <div className="relative flex min-h-[50vh] flex-col justify-center md:min-h-[56vh]">
+            <p className="mb-5 text-xs uppercase tracking-[0.32em] text-emerald-300 md:tracking-[0.4em]">
               Case Study / {project.type}
             </p>
 
-            <h1 className="max-w-5xl text-6xl font-black leading-tight tracking-tight sm:text-7xl md:text-8xl">
+            <h1 className="max-w-5xl text-5xl font-black leading-tight tracking-tight sm:text-6xl md:text-8xl">
               {project.title}
             </h1>
 
-            <p className="mt-8 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
+            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg md:mt-8">
               {project.description}
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3 md:mt-9">
               {project.tech.map((item) => (
                 <span
                   key={item}
@@ -219,7 +236,7 @@ export default function CaseStudyPage() {
               ))}
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-9 flex flex-wrap gap-4 md:mt-10">
               <Link
                 href={`/projects/${slug}/demo`}
                 className="premium-button rounded-2xl bg-emerald-400 px-6 py-3 font-bold text-slate-950 hover:bg-emerald-300"
@@ -237,61 +254,47 @@ export default function CaseStudyPage() {
           </div>
         </motion.section>
 
-        {/* QUICK CONTEXT */}
         <section className="mt-10 grid gap-5 md:grid-cols-3">
           <InfoCard label="Role" value={project.role} />
           <InfoCard label="Focus" value={project.focus} />
           <InfoCard label="Goal" value={project.goal} />
         </section>
 
-        {/* STORY */}
         <section
           ref={storyRef}
           id="story"
-          className="mt-28 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start"
+          className="mt-24 grid gap-12 lg:mt-28 lg:grid-cols-[0.9fr_1.1fr] lg:items-start"
         >
           <div className="lg:sticky lg:top-28">
             <motion.div
               style={{ y: visualY, rotate: visualRotate }}
-              className="glass relative overflow-hidden rounded-[2.4rem] p-5 md:p-7"
+              className="glass relative overflow-hidden rounded-[2rem] p-5 md:rounded-[2.4rem] md:p-7"
             >
-              <div className="relative h-[480px] overflow-hidden rounded-[1.8rem] border border-white/10 bg-gradient-to-br from-emerald-500/20 via-slate-950 to-blue-500/20 sm:h-[560px]">
+              <div className="relative h-[420px] overflow-hidden rounded-[1.6rem] border border-white/10 bg-gradient-to-br from-emerald-500/20 via-slate-950 to-blue-500/20 sm:h-[520px] md:h-[560px] md:rounded-[1.8rem]">
                 <motion.div
-                  animate={{ y: [0, -18, 0] }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute left-7 top-7 h-24 w-48 rounded-3xl border border-white/10 bg-white/10"
+                  animate={isMobile ? {} : { y: [0, -18, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute left-7 top-7 h-20 w-40 rounded-3xl border border-white/10 bg-white/10 md:h-24 md:w-48"
                 />
 
                 <motion.div
-                  animate={{ y: [0, 20, 0] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute right-7 top-16 h-44 w-40 rounded-3xl border border-emerald-300/20 bg-emerald-400/20"
+                  animate={isMobile ? {} : { y: [0, 20, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute right-7 top-16 h-36 w-32 rounded-3xl border border-emerald-300/20 bg-emerald-400/20 md:h-44 md:w-40"
                 />
 
                 <motion.div
-                  animate={{ y: [0, -14, 0] }}
-                  transition={{
-                    duration: 7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute bottom-8 left-1/2 h-56 w-[78%] -translate-x-1/2 rounded-[2rem] border border-white/10 bg-white/10"
+                  animate={isMobile ? {} : { y: [0, -14, 0] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute bottom-8 left-1/2 h-44 w-[78%] -translate-x-1/2 rounded-[2rem] border border-white/10 bg-white/10 md:h-56"
                 />
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                  <p className="text-xs uppercase tracking-[0.4em] text-emerald-300">
+                  <p className="text-xs uppercase tracking-[0.35em] text-emerald-300 md:tracking-[0.4em]">
                     Product System
                   </p>
 
-                  <h2 className="mt-4 max-w-md text-4xl font-black leading-tight">
+                  <h2 className="mt-4 max-w-md text-3xl font-black leading-tight md:text-4xl">
                     Scroll-driven product thinking
                   </h2>
 
@@ -305,33 +308,18 @@ export default function CaseStudyPage() {
           </div>
 
           <div className="space-y-8">
-            <StoryBlock
-              eyebrow="01 / Problem"
-              title="The challenge"
-              text={project.problem}
-            />
-
-            <StoryBlock
-              eyebrow="02 / Solution"
-              title="The product idea"
-              text={project.solution}
-            />
-
-            <StoryBlock
-              eyebrow="03 / Outcome"
-              title="What it demonstrates"
-              text={project.outcome}
-            />
+            <StoryBlock eyebrow="01 / Problem" title="The challenge" text={project.problem} />
+            <StoryBlock eyebrow="02 / Solution" title="The product idea" text={project.solution} />
+            <StoryBlock eyebrow="03 / Outcome" title="What it demonstrates" text={project.outcome} />
           </div>
         </section>
 
-        {/* FEATURES */}
         <motion.section
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
           variants={fadeUp}
-          className="glass mt-28 rounded-[2rem] p-8 md:p-10"
+          className="glass mt-24 rounded-[2rem] p-8 md:mt-28 md:p-10"
         >
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -356,30 +344,23 @@ export default function CaseStudyPage() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.06, duration: 0.45 }}
-                whileHover={{
-                  y: -6,
-                  scale: 1.02,
-                  boxShadow: "0 0 35px rgba(16,185,129,0.14)",
-                }}
+                transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
+                whileHover={{ y: -6, scale: 1.02 }}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5 text-slate-300"
               >
-                <p className="mb-3 text-sm text-emerald-300">
-                  0{index + 1}
-                </p>
+                <p className="mb-3 text-sm text-emerald-300">0{index + 1}</p>
                 {feature}
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* ARCHITECTURE */}
         <motion.section
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
           variants={fadeUp}
-          className="mt-28"
+          className="mt-24 md:mt-28"
         >
           <div className="mb-8">
             <p className="text-sm uppercase tracking-[0.35em] text-emerald-300">
@@ -398,7 +379,7 @@ export default function CaseStudyPage() {
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
+                  transition={{ delay: index * 0.06, duration: 0.4, ease: "easeOut" }}
                   className="glass rounded-2xl p-6 text-center transition hover:-translate-y-1 hover:border-emerald-300/30"
                 >
                   <p className="font-bold text-emerald-300">{item}</p>
@@ -408,13 +389,12 @@ export default function CaseStudyPage() {
           </div>
         </motion.section>
 
-        {/* LEARNINGS */}
         <motion.section
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
           variants={fadeUp}
-          className="glass mt-28 rounded-[2rem] p-8 md:p-10"
+          className="glass mt-24 rounded-[2rem] p-8 md:mt-28 md:p-10"
         >
           <p className="text-sm uppercase tracking-[0.35em] text-emerald-300">
             Reflection
@@ -481,23 +461,19 @@ function StoryBlock({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 48, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="glass rounded-[2rem] p-8 md:p-10"
     >
       <p className="text-sm uppercase tracking-[0.3em] text-emerald-300">
         {eyebrow}
       </p>
 
-      <h2 className="mt-4 text-3xl font-black md:text-5xl">
-        {title}
-      </h2>
+      <h2 className="mt-4 text-3xl font-black md:text-5xl">{title}</h2>
 
-      <p className="mt-5 text-base leading-8 text-slate-300">
-        {text}
-      </p>
+      <p className="mt-5 text-base leading-8 text-slate-300">{text}</p>
     </motion.div>
   );
 }

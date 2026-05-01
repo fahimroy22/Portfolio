@@ -20,20 +20,21 @@ export default function Hero() {
   const smoothX = useSpring(x, { stiffness: 140, damping: 20 });
   const smoothY = useSpring(y, { stiffness: 140, damping: 20 });
 
-  const rotateX = useTransform(smoothY, [-80, 80], [7, -7]);
-  const rotateY = useTransform(smoothX, [-80, 80], [-7, 7]);
+  const rotateX = useTransform(smoothY, [-80, 80], [6, -6]);
+  const rotateY = useTransform(smoothX, [-80, 80], [-6, 6]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 90]);
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -70]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.25]);
-  const gridOpacity = useTransform(scrollYProgress, [0, 0.8], [0.65, 0.15]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, -160]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, -45]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.35]);
+  const gridOpacity = useTransform(scrollYProgress, [0, 0.8], [0.42, 0.08]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const secondGlowY = useTransform(scrollYProgress, [0, 1], [0, 70]);
 
   const gradientShift = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
@@ -51,32 +52,30 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex min-h-screen items-center overflow-hidden px-6 pb-20 pt-32 text-white"
     >
-      {/* cinematic background */}
       <motion.div
         style={{ opacity: gridOpacity }}
-        className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_76%)]"
+        className="absolute inset-0 hidden bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_76%)] md:block"
       />
 
       <motion.div
         style={{ y: glowY }}
-        className="absolute left-[-10%] top-[10%] h-[520px] w-[520px] rounded-full bg-emerald-400/10 blur-3xl"
+        className="absolute left-[-10%] top-[10%] h-[300px] w-[300px] rounded-full bg-emerald-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl"
       />
 
       <motion.div
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}
-        className="absolute right-[-10%] bottom-[5%] h-[560px] w-[560px] rounded-full bg-blue-500/10 blur-3xl"
+        style={{ y: secondGlowY }}
+        className="absolute right-[-10%] bottom-[5%] h-[320px] w-[320px] rounded-full bg-blue-500/10 blur-2xl md:h-[560px] md:w-[560px] md:blur-3xl"
       />
 
       <motion.div
         style={{ opacity: heroOpacity }}
         className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]"
       >
-        {/* LEFT CONTENT */}
         <motion.div style={{ y: textY }}>
           <motion.div
-            initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
             className="mb-6 inline-flex items-center gap-3 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-300 backdrop-blur-xl"
           >
             <span className="relative flex h-2 w-2">
@@ -87,9 +86,9 @@ export default function Hero() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 38, filter: "blur(12px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.08, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.75, ease: "easeOut" }}
             className="max-w-4xl text-[42px] font-black leading-[1.08] tracking-tight sm:text-[54px] lg:text-[66px]"
           >
             I build clean,
@@ -110,9 +109,9 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.18, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.16, duration: 0.7, ease: "easeOut" }}
             className="mt-6 max-w-2xl text-[15px] leading-7 text-slate-300 sm:text-base"
           >
             I design and develop responsive websites, dashboards, admin panels,
@@ -121,9 +120,9 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 22 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28, duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 0.24, duration: 0.65, ease: "easeOut" }}
             className="mt-6 flex flex-wrap gap-4"
           >
             <a
@@ -142,12 +141,12 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT IMAGE */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 40 }}
+          initial={{ opacity: 0, scale: 0.96, y: 34 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.8 }}
+          transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
           onMouseMove={(e) => {
+            if (window.innerWidth < 768) return;
             const rect = e.currentTarget.getBoundingClientRect();
             x.set(e.clientX - rect.left - rect.width / 2);
             y.set(e.clientY - rect.top - rect.height / 2);
@@ -159,20 +158,19 @@ export default function Hero() {
           style={{
             y: imageY,
             scale: imageScale,
-            rotateX,
-            rotateY,
-            transformStyle: "preserve-3d",
           }}
-          className="relative mx-auto w-full max-w-[420px]"
+          className="relative mx-auto w-full max-w-[420px] md:[transform-style:preserve-3d]"
         >
           <motion.div
             style={{
               opacity: useTransform(scrollYProgress, [0, 1], [1, 0.35]),
+              rotateX,
+              rotateY,
             }}
-            className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-emerald-400/20 to-cyan-400/10 blur-2xl"
+            className="absolute -inset-5 hidden rounded-[2.5rem] bg-gradient-to-br from-emerald-400/20 to-cyan-400/10 blur-2xl md:block"
           />
 
-          <div className="glass relative overflow-hidden rounded-[2rem] p-4">
+          <div className="glass relative overflow-hidden rounded-[2rem] p-4 md:[transform:translateZ(20px)]">
             <div className="relative h-[500px] overflow-hidden rounded-[1.5rem]">
               <Image
                 src="/profile.jpg"
