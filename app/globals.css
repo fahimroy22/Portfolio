@@ -156,3 +156,18 @@ section[id] {
     overflow-x: hidden;
   }
 }
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .premium-card,
+  .glass {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+}

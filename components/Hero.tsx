@@ -10,6 +10,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
+import { smoothReveal, smoothItem } from "./motionPresets";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -49,21 +50,18 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex min-h-screen items-center overflow-hidden px-5 pb-16 pt-28 text-white md:px-6 md:pb-20 md:pt-32"
     >
-      {/* background glow (lighter on mobile) */}
       <div className="absolute left-[-10%] top-[10%] h-[260px] w-[260px] rounded-full bg-emerald-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl" />
-
       <div className="absolute right-[-10%] bottom-[5%] h-[280px] w-[280px] rounded-full bg-blue-500/10 blur-2xl md:h-[560px] md:w-[560px] md:blur-3xl" />
 
       <motion.div
         style={{ opacity: heroOpacity }}
         className="relative mx-auto grid max-w-7xl items-center gap-10 md:gap-14 lg:grid-cols-[1.05fr_0.95fr]"
       >
-        {/* LEFT */}
         <motion.div style={{ y: textY }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial="hidden"
+            animate="show"
+            variants={smoothReveal}
             className="mb-5 inline-flex items-center gap-3 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-xs text-emerald-300 sm:text-sm"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-300" />
@@ -71,9 +69,8 @@ export default function Hero() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.7 }}
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            animate={smoothItem(0.08)}
             className="max-w-4xl text-[40px] font-black leading-[1.08] tracking-tight sm:text-[54px] lg:text-[66px]"
           >
             I build clean,
@@ -94,9 +91,8 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.65 }}
+            initial={{ opacity: 0, y: 22, scale: 0.98 }}
+            animate={smoothItem(0.16)}
             className="mt-5 max-w-xl text-[15px] leading-7 text-slate-300 sm:text-base md:mt-6"
           >
             I design and develop responsive websites, dashboards, and full-stack
@@ -104,9 +100,8 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.22, duration: 0.6 }}
+            initial={{ opacity: 0, y: 18, scale: 0.98 }}
+            animate={smoothItem(0.24)}
             className="mt-7 flex flex-wrap gap-3 md:mt-6 md:gap-4"
           >
             <a
@@ -125,11 +120,9 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT IMAGE */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.65 }}
+          initial={{ opacity: 0, y: 30, scale: 0.96 }}
+          animate={smoothItem(0.12)}
           onMouseMove={(e) => {
             if (window.innerWidth < 768) return;
             const rect = e.currentTarget.getBoundingClientRect();
@@ -146,13 +139,7 @@ export default function Hero() {
           }}
           className="relative mx-auto mt-8 w-full max-w-[340px] md:mt-0 md:max-w-[420px]"
         >
-          <motion.div
-            style={{
-              rotateX,
-              rotateY,
-            }}
-            className="hidden md:block"
-          >
+          <motion.div style={{ rotateX, rotateY }} className="hidden md:block">
             <div className="glass relative overflow-hidden rounded-[2rem] p-4">
               <div className="relative h-[420px] overflow-hidden rounded-[1.5rem] md:h-[500px]">
                 <Image
@@ -179,7 +166,6 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* MOBILE IMAGE (no tilt for performance) */}
           <div className="glass relative overflow-hidden rounded-[2rem] p-4 md:hidden">
             <div className="relative h-[380px] overflow-hidden rounded-[1.5rem]">
               <Image

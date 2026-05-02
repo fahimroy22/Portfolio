@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { smoothReveal, smoothItem } from "./motionPresets";
 
 const skillGroups = [
   {
@@ -62,10 +63,10 @@ export default function Skills() {
     <section id="skills" className="relative px-6 py-28 pb-40 text-white">
       <div className="mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 35, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          variants={smoothReveal}
           className="mb-14 text-center"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
@@ -83,12 +84,10 @@ export default function Skills() {
         </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
-          {/* LEFT PANEL */}
           <motion.div
-            initial={{ opacity: 0, x: -35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={smoothItem(0)}
+            viewport={{ once: true, amount: 0.18 }}
             className="glass rounded-[2rem] p-5"
           >
             <div className="relative grid gap-3">
@@ -126,14 +125,14 @@ export default function Skills() {
             </div>
           </motion.div>
 
-          {/* RIGHT PANEL */}
           <motion.div
             key={active.title}
-            initial={{ opacity: 0, y: 30, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            animate={smoothItem(0.05)}
             className="group glass relative overflow-hidden rounded-[2rem] p-8 pb-10"
             onMouseMove={(e) => {
+              if (window.innerWidth < 768) return;
+
               const rect = e.currentTarget.getBoundingClientRect();
               e.currentTarget.style.setProperty(
                 "--x",
@@ -146,7 +145,7 @@ export default function Skills() {
             }}
           >
             <div
-              className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+              className="pointer-events-none absolute inset-0 hidden opacity-0 transition duration-300 group-hover:opacity-100 md:block"
               style={{
                 background:
                   "radial-gradient(500px circle at var(--x) var(--y), rgba(16,185,129,0.13), transparent 40%)",
@@ -169,8 +168,8 @@ export default function Skills() {
 
               <motion.div
                 key={hoveredSkill || active.title}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                animate={smoothItem(0)}
                 className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 xl:min-w-[280px]"
               >
                 <p className="text-xs uppercase tracking-[0.25em] text-emerald-300">
@@ -230,6 +229,8 @@ function TiltSkillCard({
   });
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.innerWidth < 768) return;
+
     const rect = e.currentTarget.getBoundingClientRect();
 
     const x = e.clientX - rect.left;
@@ -253,32 +254,26 @@ function TiltSkillCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        delay: index * 0.06,
-        duration: 0.4,
-       ease: "easeOut",
-      }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      animate={smoothItem(index * 0.06)}
       onMouseMove={handleMove}
       onMouseEnter={onHover}
       onMouseLeave={reset}
       style={{
-        transformStyle: "preserve-3d",
         rotateX: tilt.rotateX,
         rotateY: tilt.rotateY,
       }}
-      className="group/card relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-150 will-change-transform"
+      className="group/card relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 transition duration-150 will-change-transform md:[transform-style:preserve-3d]"
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover/card:opacity-100"
+        className="pointer-events-none absolute inset-0 hidden opacity-0 transition duration-300 group-hover/card:opacity-100 md:block"
         style={{
           background: `radial-gradient(420px circle at ${tilt.x}% ${tilt.y}%, rgba(110,231,183,0.22), transparent 42%)`,
         }}
       />
 
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 mix-blend-screen transition duration-300 group-hover/card:opacity-60"
+        className="pointer-events-none absolute inset-0 hidden opacity-0 mix-blend-screen transition duration-300 group-hover/card:opacity-60 md:block"
         style={{
           background:
             "linear-gradient(115deg, transparent 15%, rgba(255,255,255,0.18), transparent 45%)",
@@ -286,23 +281,26 @@ function TiltSkillCard({
         }}
       />
 
-      <div className="relative" style={{ transform: "translateZ(28px)" }}>
+      <div className="relative md:[transform:translateZ(28px)]">
         <p className="text-lg font-bold">{skill}</p>
 
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${getSkillLevel(skill)}%` }}
-            transition={{ delay: index * 0.08, duration: 0.8 }}
+            transition={{
+              type: "spring",
+              stiffness: 80,
+              damping: 18,
+              delay: index * 0.08,
+            }}
             className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-300"
           />
         </div>
 
-        <p className="mt-3 text-sm text-slate-400">
-          {getSkillLabel(skill)}
-        </p>
+        <p className="mt-3 text-sm text-slate-400">{getSkillLabel(skill)}</p>
 
-        <div className="mt-4 flex flex-wrap gap-2 opacity-0 transition duration-300 group-hover/card:opacity-100">
+        <div className="mt-4 flex flex-wrap gap-2 opacity-100 transition duration-300 md:opacity-0 md:group-hover/card:opacity-100">
           {(skillProjects[skill] || ["Portfolio Website"]).map((project) => (
             <span
               key={project}

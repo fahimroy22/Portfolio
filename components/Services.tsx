@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { smoothReveal, smoothItem } from "./motionPresets";
 
 const services = [
   {
@@ -32,10 +33,10 @@ export default function Services() {
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          variants={smoothReveal}
           className="mb-14 max-w-3xl"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
@@ -56,14 +57,9 @@ export default function Services() {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: index * 0.06,
-                duration: 0.5,
-                ease: "easeOut",
-              }}
+              initial={{ opacity: 0, y: 28, scale: 0.98 }}
+              whileInView={smoothItem(index * 0.06)}
+              viewport={{ once: true, amount: 0.18 }}
               className="glass premium-card rounded-[2rem] p-6 md:p-8"
             >
               <p className="text-sm text-emerald-300">0{index + 1}</p>
@@ -72,18 +68,19 @@ export default function Services() {
                 {service.title}
               </h3>
 
-              <p className="mt-4 leading-7 text-slate-300">
-                {service.desc}
-              </p>
+              <p className="mt-4 leading-7 text-slate-300">{service.desc}</p>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                {service.items.map((item) => (
-                  <span
+                {service.items.map((item, itemIndex) => (
+                  <motion.span
                     key={item}
+                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    whileInView={smoothItem(index * 0.04 + itemIndex * 0.025)}
+                    viewport={{ once: true, amount: 0.2 }}
                     className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300"
                   >
                     {item}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>

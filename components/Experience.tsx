@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { smoothReveal, smoothItem } from "./motionPresets";
 
 const timeline = [
   {
@@ -72,10 +73,10 @@ export default function Experience() {
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          variants={smoothReveal}
           className="mb-14 max-w-4xl md:mb-20"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
@@ -130,14 +131,9 @@ function TimelineItem({
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 28, scale: 0.98 }}
+      whileInView={smoothItem(index * 0.05)}
       viewport={{ once: true, amount: 0.18 }}
-      transition={{
-        delay: index * 0.05,
-        duration: 0.5,
-        ease: "easeOut",
-      }}
       className="group relative md:grid md:grid-cols-[120px_1fr] md:gap-10"
     >
       <div className="relative mb-4 flex items-center gap-3 md:mb-0 md:block">
@@ -146,7 +142,12 @@ function TimelineItem({
         <motion.div
           whileInView={{ scale: [0.8, 1.2, 1] }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.06 }}
+          transition={{
+            type: "spring",
+            stiffness: 140,
+            damping: 14,
+            delay: index * 0.06,
+          }}
           className="absolute left-[2px] top-9 hidden h-3 w-3 rounded-full bg-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.85)] md:block"
         />
 
@@ -177,9 +178,12 @@ function TimelineItem({
           </p>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {item.skills.map((skill) => (
+            {item.skills.map((skill, skillIndex) => (
               <motion.span
                 key={skill}
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                whileInView={smoothItem(index * 0.04 + skillIndex * 0.025)}
+                viewport={{ once: true, amount: 0.2 }}
                 whileHover={{ y: -2 }}
                 className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300 sm:text-sm"
               >

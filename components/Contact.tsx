@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { smoothReveal, smoothItem } from "./motionPresets";
 import {
   FaGithub,
   FaLinkedinIn,
@@ -72,10 +73,10 @@ export default function Contact() {
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
+          variants={smoothReveal}
           className="mb-12 text-center md:mb-14"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
@@ -94,10 +95,9 @@ export default function Contact() {
 
         <div className="grid gap-7 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8">
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={smoothItem(0)}
             viewport={{ once: true, amount: 0.18 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
             className="glass relative overflow-hidden rounded-[2rem] p-5 md:p-8"
           >
             <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-emerald-400/10 blur-2xl md:h-72 md:w-72 md:blur-3xl" />
@@ -175,10 +175,9 @@ export default function Contact() {
 
           <motion.form
             onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 28, scale: 0.98 }}
+            whileInView={smoothItem(0.07)}
             viewport={{ once: true, amount: 0.18 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
             className="glass relative overflow-hidden rounded-[2rem] p-5 md:p-8"
           >
             <div className="absolute -left-24 -top-24 h-52 w-52 rounded-full bg-cyan-400/10 blur-2xl md:h-72 md:w-72 md:blur-3xl" />
