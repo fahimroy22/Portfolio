@@ -15,14 +15,18 @@ export default function Home() {
     <>
       <InteractionLayer />
       <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Services />
-      <Skills />
-      <Experience />
-      <Contact />
-      <Footer />
+
+      <main className="snap-container">
+        <Hero />
+        <About />
+        <Projects />
+        <Services />
+        <Skills />
+        <Experience />
+        <Contact />
+        <Footer />
+      </main>
+
       <SocialBar />
     </>
   );

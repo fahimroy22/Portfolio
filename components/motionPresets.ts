@@ -1,9 +1,9 @@
-import type { Variants } from "framer-motion";
+import { Variants, TargetAndTransition, Transition } from "framer-motion";
 
 export const smoothReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 28,
+    y: 30,
     scale: 0.98,
   },
   show: {
@@ -11,23 +11,26 @@ export const smoothReveal: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      type: "spring",
-      stiffness: 90,
-      damping: 18,
-      mass: 0.7,
+      duration: 0.55,
+      ease: "easeOut",
     },
   },
 };
 
-export const smoothItem = (delay = 0) => ({
+// ✅ Explicit transition typing
+const spring: Transition = {
+  type: "spring",
+  stiffness: 90,
+  damping: 18,
+  mass: 0.6,
+};
+
+export const smoothItem = (delay = 0): TargetAndTransition => ({
   opacity: 1,
   y: 0,
   scale: 1,
   transition: {
-    type: "spring",
-    stiffness: 90,
-    damping: 18,
-    mass: 0.7,
+    ...spring,
     delay,
   },
 });

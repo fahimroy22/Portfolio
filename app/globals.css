@@ -171,3 +171,54 @@ section[id] {
     will-change: transform, opacity;
   }
 }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px;
+}
+
+section[id] {
+  scroll-margin-top: 110px;
+}
+
+.snap-container {
+  scroll-snap-type: y proximity;
+}
+
+.snap-container > section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Mobile: softer snapping so it does not feel stuck */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 96px;
+  }
+
+  section[id] {
+    scroll-margin-top: 96px;
+  }
+
+  .snap-container {
+    scroll-snap-type: y proximity;
+  }
+
+  .snap-container > section {
+    scroll-snap-align: start;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .snap-container {
+    scroll-snap-type: none;
+  }
+
+  .snap-container > section {
+    scroll-snap-align: none;
+  }
+}
