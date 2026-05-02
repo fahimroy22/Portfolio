@@ -63,17 +63,20 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative overflow-hidden px-6 pb-28 pt-44 text-white">
-      <div className="pointer-events-none absolute left-1/2 top-20 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-0 right-[-10%] h-[520px] w-[520px] rounded-full bg-cyan-400/10 blur-3xl" />
+    <section
+      id="contact"
+      className="relative overflow-hidden px-5 pb-24 pt-28 text-white md:px-6 md:pb-28 md:pt-44"
+    >
+      <div className="pointer-events-none absolute left-1/2 top-20 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-2xl md:h-[420px] md:w-[420px] md:blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 right-[-10%] h-[280px] w-[280px] rounded-full bg-cyan-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 35, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-14 text-center"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="mb-12 text-center md:mb-14"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
             Contact
@@ -89,23 +92,22 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          {/* LEFT CARD */}
+        <div className="grid gap-7 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8">
           <motion.div
-            initial={{ opacity: 0, x: -35, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="glass relative overflow-hidden rounded-[2rem] p-8"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.18 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="glass relative overflow-hidden rounded-[2rem] p-5 md:p-8"
           >
-            <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl" />
+            <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-emerald-400/10 blur-2xl md:h-72 md:w-72 md:blur-3xl" />
 
             <div className="relative">
-              <div className="mb-8 inline-flex rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-300">
+              <div className="mb-7 inline-flex rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-300">
                 Available for work
               </div>
 
-              <h3 className="text-3xl font-black leading-tight">
+              <h3 className="text-2xl font-black leading-tight md:text-3xl">
                 Freelance projects, dashboards, portfolios, and full-stack apps.
               </h3>
 
@@ -114,20 +116,20 @@ export default function Contact() {
                 budget, timeline, or anything you already have.
               </p>
 
-              <div className="mt-8 space-y-4">
+              <div className="mt-7 space-y-4">
                 <button
                   type="button"
                   onClick={copyEmail}
-                  className="group flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left transition hover:border-emerald-300/30 hover:bg-white/10"
+                  className="group flex w-full items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left transition hover:border-emerald-300/30 hover:bg-white/10"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm text-slate-400">Email</p>
-                    <p className="mt-1 font-semibold text-white">
+                    <p className="mt-1 truncate font-semibold text-white">
                       {copied ? "Copied to clipboard!" : email}
                     </p>
                   </div>
 
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-emerald-300 transition group-hover:bg-emerald-400 group-hover:text-black">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/5 text-emerald-300 transition group-hover:bg-emerald-400 group-hover:text-black">
                     {copied ? <FaCheck /> : <FaEnvelope />}
                   </span>
                 </button>
@@ -171,16 +173,15 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* FORM */}
           <motion.form
             onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: 35, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="glass relative overflow-hidden rounded-[2rem] p-8"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.18 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="glass relative overflow-hidden rounded-[2rem] p-5 md:p-8"
           >
-            <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+            <div className="absolute -left-24 -top-24 h-52 w-52 rounded-full bg-cyan-400/10 blur-2xl md:h-72 md:w-72 md:blur-3xl" />
 
             <div className="relative grid gap-5">
               <div className="grid gap-5 md:grid-cols-2">

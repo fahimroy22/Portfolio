@@ -9,7 +9,7 @@ const timeline = [
     title: "Building Full-Stack Products",
     tag: "Current Focus",
     description:
-      "Focused on building scalable web apps, clean dashboards, modern portfolios, and client-ready full-stack applications.",
+      "Building scalable web apps, dashboards, portfolios, and client-ready full-stack products.",
     skills: ["Next.js", "React", "MongoDB", "UI/UX"],
   },
   {
@@ -17,7 +17,7 @@ const timeline = [
     title: "PeerLearn Project",
     tag: "Featured Project",
     description:
-      "Designed and developed PeerLearn, a peer-to-peer learning platform concept focused on collaboration, resource sharing, and student learning.",
+      "Designed a peer-to-peer learning platform concept focused on collaboration and resource sharing.",
     skills: ["Full-Stack", "Product Thinking", "Collaboration"],
   },
   {
@@ -25,7 +25,7 @@ const timeline = [
     title: "CSE Student Journey",
     tag: "Academic Growth",
     description:
-      "Strengthened programming fundamentals, data structures, algorithms, object-oriented programming, and problem-solving through CSE coursework.",
+      "Strengthened programming fundamentals, algorithms, OOP, and problem-solving through CSE coursework.",
     skills: ["C++", "Java", "Python", "Problem Solving"],
   },
   {
@@ -33,16 +33,16 @@ const timeline = [
     title: "Frontend & UI Development",
     tag: "Design + Code",
     description:
-      "Started building polished web interfaces with responsive layouts, smooth animations, and strong attention to visual design.",
+      "Started building responsive interfaces with smooth animations and strong visual design.",
     skills: ["HTML", "CSS", "JavaScript", "Tailwind"],
   },
   {
-    year: "Core Strength",
+    year: "Core",
     title: "Communication & Leadership",
     tag: "Professional Skills",
     description:
-      "Comfortable communicating ideas clearly, working with teams, leading small projects, and presenting solutions in English.",
-    skills: ["Communication", "Fluent English", "Leadership"],
+      "Comfortable communicating ideas clearly, working with teams, and presenting solutions in English.",
+    skills: ["Communication", "English", "Leadership"],
   },
 ];
 
@@ -66,17 +66,17 @@ export default function Experience() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative overflow-hidden px-6 py-28 text-white sm:py-32"
+      className="relative overflow-hidden px-5 py-24 text-white md:px-6 md:py-32"
     >
-      <div className="pointer-events-none absolute left-1/2 top-20 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-20 h-[260px] w-[260px] -translate-x-1/2 rounded-full bg-emerald-400/10 blur-2xl md:h-[420px] md:w-[420px] md:blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 36, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16 max-w-4xl sm:mb-20"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="mb-14 max-w-4xl md:mb-20"
         >
           <p className="mb-3 text-sm uppercase tracking-[0.35em] text-emerald-300">
             Timeline
@@ -87,25 +87,24 @@ export default function Experience() {
           </h2>
 
           <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-            A short timeline of my learning journey, product-building focus, and
-            the strengths I bring into every project.
+            A short timeline of my learning journey, projects, and strengths.
           </p>
         </motion.div>
 
         <div className="relative">
-          {/* Desktop rail */}
           <div className="absolute left-[7px] top-0 hidden h-full w-px bg-white/10 md:block">
             <motion.div
               style={{ scaleY: progress }}
               className="absolute left-0 top-0 h-full w-px origin-top bg-gradient-to-b from-emerald-300 via-cyan-300 to-violet-300"
             />
+
             <motion.div
               style={{ top: glowY }}
               className="absolute left-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300 shadow-[0_0_35px_rgba(52,211,153,0.9)]"
             />
           </div>
 
-          <div className="space-y-8 md:space-y-10">
+          <div className="space-y-7 md:space-y-10">
             {timeline.map((item, index) => (
               <TimelineItem key={item.title} item={item} index={index} />
             ))}
@@ -131,26 +130,23 @@ function TimelineItem({
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 42, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, amount: 0.28 }}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
       transition={{
-        delay: index * 0.06,
-        duration: 0.7,
+        delay: index * 0.05,
+        duration: 0.5,
         ease: "easeOut",
       }}
       className="group relative md:grid md:grid-cols-[120px_1fr] md:gap-10"
     >
-      {/* Year column */}
       <div className="relative mb-4 flex items-center gap-3 md:mb-0 md:block">
-        {/* Mobile dot */}
         <div className="h-3 w-3 rounded-full bg-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.85)] md:hidden" />
 
-        {/* Desktop dot */}
         <motion.div
-          whileInView={{ scale: [0.7, 1.25, 1] }}
+          whileInView={{ scale: [0.8, 1.2, 1] }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: index * 0.08 }}
+          transition={{ duration: 0.5, delay: index * 0.06 }}
           className="absolute left-[2px] top-9 hidden h-3 w-3 rounded-full bg-emerald-300 shadow-[0_0_24px_rgba(52,211,153,0.85)] md:block"
         />
 
@@ -159,13 +155,12 @@ function TimelineItem({
         </p>
       </div>
 
-      {/* Card */}
       <motion.div
         whileHover={{ y: -6, scale: 1.01 }}
         transition={{ type: "spring", stiffness: 220, damping: 20 }}
-        className="premium-card glass relative overflow-hidden rounded-[1.75rem] p-6 sm:p-8 md:rounded-[2rem]"
+        className="premium-card glass relative overflow-hidden rounded-[1.75rem] p-5 sm:p-7 md:rounded-[2rem] md:p-8"
       >
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl opacity-0 transition duration-500 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute -right-24 -top-24 hidden h-72 w-72 rounded-full bg-emerald-400/10 opacity-0 blur-3xl transition duration-500 group-hover:opacity-100 md:block" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent" />
 
         <div className="relative">
