@@ -123,3 +123,36 @@ section[id] {
     backdrop-filter: blur(12px);
   }
 }
+html {
+  scroll-padding-top: 110px;
+}
+
+section[id] {
+  scroll-margin-top: 110px;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 96px;
+  }
+
+  section[id] {
+    scroll-margin-top: 96px;
+  }
+
+  .glass {
+    backdrop-filter: blur(10px);
+  }
+
+  .glass-soft {
+    backdrop-filter: blur(8px);
+  }
+
+  .premium-button {
+    min-height: 48px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}

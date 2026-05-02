@@ -17,24 +17,21 @@ export default function Hero() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const smoothX = useSpring(x, { stiffness: 140, damping: 20 });
-  const smoothY = useSpring(y, { stiffness: 140, damping: 20 });
+  const smoothX = useSpring(x, { stiffness: 120, damping: 18 });
+  const smoothY = useSpring(y, { stiffness: 120, damping: 18 });
 
-  const rotateX = useTransform(smoothY, [-80, 80], [6, -6]);
-  const rotateY = useTransform(smoothX, [-80, 80], [-6, 6]);
+  const rotateX = useTransform(smoothY, [-80, 80], [5, -5]);
+  const rotateY = useTransform(smoothX, [-80, 80], [-5, 5]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -45]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, -40]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.35]);
-  const gridOpacity = useTransform(scrollYProgress, [0, 0.8], [0.42, 0.08]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const secondGlowY = useTransform(scrollYProgress, [0, 1], [0, 70]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.4]);
 
   const gradientShift = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
@@ -50,46 +47,34 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center overflow-hidden px-6 pb-20 pt-32 text-white"
+      className="relative flex min-h-screen items-center overflow-hidden px-5 pb-16 pt-28 text-white md:px-6 md:pb-20 md:pt-32"
     >
-      <motion.div
-        style={{ opacity: gridOpacity }}
-        className="absolute inset-0 hidden bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_76%)] md:block"
-      />
+      {/* background glow (lighter on mobile) */}
+      <div className="absolute left-[-10%] top-[10%] h-[260px] w-[260px] rounded-full bg-emerald-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl" />
 
-      <motion.div
-        style={{ y: glowY }}
-        className="absolute left-[-10%] top-[10%] h-[300px] w-[300px] rounded-full bg-emerald-400/10 blur-2xl md:h-[520px] md:w-[520px] md:blur-3xl"
-      />
-
-      <motion.div
-        style={{ y: secondGlowY }}
-        className="absolute right-[-10%] bottom-[5%] h-[320px] w-[320px] rounded-full bg-blue-500/10 blur-2xl md:h-[560px] md:w-[560px] md:blur-3xl"
-      />
+      <div className="absolute right-[-10%] bottom-[5%] h-[280px] w-[280px] rounded-full bg-blue-500/10 blur-2xl md:h-[560px] md:w-[560px] md:blur-3xl" />
 
       <motion.div
         style={{ opacity: heroOpacity }}
-        className="relative mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]"
+        className="relative mx-auto grid max-w-7xl items-center gap-10 md:gap-14 lg:grid-cols-[1.05fr_0.95fr]"
       >
+        {/* LEFT */}
         <motion.div style={{ y: textY }}>
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
-            className="mb-6 inline-flex items-center gap-3 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-300 backdrop-blur-xl"
+            transition={{ duration: 0.6 }}
+            className="mb-5 inline-flex items-center gap-3 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-xs text-emerald-300 sm:text-sm"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
-            </span>
-            CSE Student · Full-Stack Developer
+            <span className="h-2 w-2 rounded-full bg-emerald-300" />
+            Full-Stack Developer
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 34 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.75, ease: "easeOut" }}
-            className="max-w-4xl text-[42px] font-black leading-[1.08] tracking-tight sm:text-[54px] lg:text-[66px]"
+            transition={{ delay: 0.08, duration: 0.7 }}
+            className="max-w-4xl text-[40px] font-black leading-[1.08] tracking-tight sm:text-[54px] lg:text-[66px]"
           >
             I build clean,
             <br />
@@ -97,7 +82,7 @@ export default function Hero() {
             <motion.span
               style={{
                 backgroundImage: headlineGradient,
-                backgroundSize: "220% 100%",
+                backgroundSize: "200% 100%",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 color: "transparent",
@@ -109,42 +94,42 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 22 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.16, duration: 0.7, ease: "easeOut" }}
-            className="mt-6 max-w-2xl text-[15px] leading-7 text-slate-300 sm:text-base"
+            transition={{ delay: 0.15, duration: 0.65 }}
+            className="mt-5 max-w-xl text-[15px] leading-7 text-slate-300 sm:text-base md:mt-6"
           >
-            I design and develop responsive websites, dashboards, admin panels,
-            and client-ready full-stack applications with strong UI/UX and clean
-            code.
+            I design and develop responsive websites, dashboards, and full-stack
+            applications with clean UI and strong performance.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: 0.65, ease: "easeOut" }}
-            className="mt-6 flex flex-wrap gap-4"
+            transition={{ delay: 0.22, duration: 0.6 }}
+            className="mt-7 flex flex-wrap gap-3 md:mt-6 md:gap-4"
           >
             <a
               href="#projects"
-              className="premium-button rounded-2xl bg-emerald-400 px-6 py-3.5 font-semibold text-slate-950 hover:bg-emerald-300"
+              className="premium-button rounded-xl bg-emerald-400 px-5 py-3 font-semibold text-slate-950"
             >
               View Projects
             </a>
 
             <a
               href="#contact"
-              className="premium-button rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 font-semibold text-white hover:bg-white/10"
+              className="premium-button rounded-xl border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white"
             >
               Hire Me
             </a>
           </motion.div>
         </motion.div>
 
+        {/* RIGHT IMAGE */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 34 }}
+          initial={{ opacity: 0, scale: 0.96, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
+          transition={{ delay: 0.1, duration: 0.65 }}
           onMouseMove={(e) => {
             if (window.innerWidth < 768) return;
             const rect = e.currentTarget.getBoundingClientRect();
@@ -159,61 +144,56 @@ export default function Hero() {
             y: imageY,
             scale: imageScale,
           }}
-          className="relative mx-auto w-full max-w-[420px] md:[transform-style:preserve-3d]"
+          className="relative mx-auto mt-8 w-full max-w-[340px] md:mt-0 md:max-w-[420px]"
         >
           <motion.div
             style={{
-              opacity: useTransform(scrollYProgress, [0, 1], [1, 0.35]),
               rotateX,
               rotateY,
             }}
-            className="absolute -inset-5 hidden rounded-[2.5rem] bg-gradient-to-br from-emerald-400/20 to-cyan-400/10 blur-2xl md:block"
-          />
+            className="hidden md:block"
+          >
+            <div className="glass relative overflow-hidden rounded-[2rem] p-4">
+              <div className="relative h-[420px] overflow-hidden rounded-[1.5rem] md:h-[500px]">
+                <Image
+                  src="/profile.jpg"
+                  alt="Fahim Ahmed"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 90vw, 420px"
+                  className="object-cover"
+                />
 
-          <div className="glass relative overflow-hidden rounded-[2rem] p-4 md:[transform:translateZ(20px)]">
-            <div className="relative h-[500px] overflow-hidden rounded-[1.5rem]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="mb-1 text-[10px] uppercase tracking-[0.25em] text-emerald-300">
+                    Full-Stack Developer
+                  </p>
+
+                  <h2 className="text-xl font-black">
+                    Fahim <span className="text-emerald-300">Ahmed</span>
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* MOBILE IMAGE (no tilt for performance) */}
+          <div className="glass relative overflow-hidden rounded-[2rem] p-4 md:hidden">
+            <div className="relative h-[380px] overflow-hidden rounded-[1.5rem]">
               <Image
                 src="/profile.jpg"
                 alt="Fahim Ahmed"
                 fill
                 priority
-                sizes="(max-width: 768px) 90vw, 420px"
                 className="object-cover"
               />
 
-              <motion.div
-                style={{
-                  opacity: useTransform(scrollYProgress, [0, 1], [1, 0.65]),
-                }}
-                className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
-              />
-
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="mb-2 text-[10px] uppercase tracking-[0.28em] text-emerald-300">
-                  Full-Stack Developer
-                </p>
-
-                <h2 className="text-2xl font-black">
-                  Fahim <span className="text-emerald-300">Ahmed</span>
-                </h2>
-
-                <p className="mt-1 text-xs text-slate-300">
-                  Building clean, scalable web products.
-                </p>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
           </div>
         </motion.div>
-      </motion.div>
-
-      <motion.div
-        style={{
-          opacity: useTransform(scrollYProgress, [0, 0.35], [1, 0]),
-          y: useTransform(scrollYProgress, [0, 0.35], [0, 18]),
-        }}
-        className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 text-xs uppercase tracking-[0.35em] text-slate-500 md:block"
-      >
-        Scroll
       </motion.div>
     </section>
   );
