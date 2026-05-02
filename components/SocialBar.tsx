@@ -56,23 +56,24 @@ export default function SocialBar() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div
-      className={`fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 ease-out sm:bottom-5 ${
+      className={`fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 transition-all duration-300 ease-out md:block ${
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-24 opacity-0"
       }`}
     >
-      <div className="absolute -inset-3 rounded-3xl bg-gradient-to-r from-emerald-400/18 via-cyan-400/10 to-blue-500/18 opacity-55 blur-xl" />
+      <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-emerald-400/20 via-cyan-400/10 to-blue-500/20 opacity-60 blur-xl" />
 
       <div
         onMouseMove={(e) => setMouseX(e.clientX)}
         onMouseLeave={() => setMouseX(null)}
-        className="relative flex items-end gap-2.5 rounded-3xl border border-white/10 bg-slate-950/75 px-3.5 py-2.5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-md"
+        className="relative flex items-end gap-3 rounded-3xl border border-white/10 bg-slate-950/75 px-4 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-md"
       >
         {socials.map((social) => (
           <DockIcon key={social.label} social={social} mouseX={mouseX} />
@@ -104,12 +105,12 @@ function DockIcon({
     const center = rect.left + rect.width / 2;
     const distanceRaw = mouseX - center;
     const distance = Math.abs(distanceRaw);
-    const maxDistance = 64;
+    const maxDistance = 60;
 
-    scale = Math.max(1, 1.32 - distance / maxDistance);
+    scale = Math.max(1, 1.28 - distance / maxDistance);
 
     if (distance < maxDistance) {
-      pull = distanceRaw * 0.055;
+      pull = distanceRaw * 0.06;
     }
   }
 
@@ -123,15 +124,15 @@ function DockIcon({
       style={{
         transform: `
           translateX(${pull}px)
-          translateY(${scale > 1 ? "-5px" : "0px"})
+          translateY(${scale > 1 ? "-6px" : "0px"})
           scale(${scale})
         `,
       }}
-      className="group relative flex h-11 w-11 origin-bottom items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-lg text-slate-300 transition-[transform,background-color,color,box-shadow] duration-100 ease-out will-change-transform hover:bg-emerald-400 hover:text-black hover:shadow-[0_14px_40px_rgba(52,211,153,0.28)]"
+      className="group relative flex h-12 w-12 origin-bottom items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-xl text-slate-300 transition-[transform,background-color,color,box-shadow] duration-100 ease-out will-change-transform hover:bg-emerald-400 hover:text-black hover:shadow-[0_14px_40px_rgba(52,211,153,0.35)]"
     >
       <Icon />
 
-      <span className="pointer-events-none absolute -top-10 rounded-xl border border-white/10 bg-slate-950/90 px-3 py-1.5 text-xs text-white opacity-0 shadow-xl backdrop-blur-md transition-opacity duration-150 group-hover:opacity-100">
+      <span className="pointer-events-none absolute -top-11 rounded-xl border border-white/10 bg-slate-950/90 px-3 py-1.5 text-xs text-white opacity-0 shadow-xl backdrop-blur-md transition-opacity duration-150 group-hover:opacity-100">
         {social.label}
       </span>
     </a>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const links = [
   { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
+  { name: "Services", href: "#services" },
   { name: "Skills", href: "#skills" },
   { name: "Experience", href: "#experience" },
   { name: "Contact", href: "#contact" },
@@ -15,19 +16,17 @@ export default function Navbar() {
   const [active, setActive] = useState("#about");
   const [scrolled, setScrolled] = useState(false);
 
-  // 🔹 Scroll shrink effect
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 120);
+    const onScroll = () => setScrolled(window.scrollY > 80);
+
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 🔹 Active section detection (improved)
   useEffect(() => {
-    const sections = links.map((link) =>
-      document.querySelector(link.href)
-    );
+    const sections = links.map((link) => document.querySelector(link.href));
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -37,10 +36,7 @@ export default function Navbar() {
           }
         });
       },
-      {
-        rootMargin: "-40% 0px -50% 0px",
-        threshold: 0,
-      }
+      { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
     );
 
     sections.forEach((section) => section && observer.observe(section));
@@ -50,7 +46,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // 🔹 Smooth scroll handler
   const handleClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
@@ -60,38 +55,28 @@ export default function Navbar() {
     const target = document.querySelector(href);
     if (!target) return;
 
-    target.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", href);
     setActive(href);
   };
 
   return (
     <motion.header
-      initial={{ y: -30, opacity: 0, filter: "blur(10px)" }}
-      animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed left-0 right-0 top-6 z-50 px-4 sm:px-6"
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed left-0 right-0 top-4 z-50 px-4 sm:px-6 md:top-6"
     >
-      <div className="mx-auto grid max-w-7xl lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="hidden lg:block" />
-
+      <div className="mx-auto flex max-w-7xl justify-center md:justify-end">
         <motion.nav
           animate={{
-            scale: scrolled ? 0.94 : 1,
-            y: scrolled ? -6 : 0,
+            scale: scrolled ? 0.97 : 1,
+            y: scrolled ? -2 : 0,
           }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 28,
-          }}
-          className="glass justify-self-center rounded-[1.4rem] border border-white/10 bg-white/[0.035] px-2 py-2 shadow-[0_18px_60px_rgba(0,0,0,0.25)] backdrop-blur-2xl lg:translate-x-6 lg:w-fit"
+          transition={{ type: "spring", stiffness: 260, damping: 28 }}
+          className="w-full max-w-[92vw] overflow-x-auto rounded-full border border-white/10 bg-slate-950/70 px-2 py-2 shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl md:w-fit md:max-w-none"
         >
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
+          <div className="flex min-w-max items-center justify-center gap-1">
             {links.map((link) => {
               const isActive = active === link.href;
 
@@ -100,17 +85,16 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleClick(e, link.href)}
-                  className={`relative whitespace-nowrap overflow-hidden rounded-xl px-3 py-2 text-xs transition duration-300 sm:px-4 sm:py-2.5 sm:text-sm ${
+                  className={`relative whitespace-nowrap rounded-full px-3 py-2 text-sm transition sm:px-4 ${
                     isActive
                       ? "text-white"
                       : "text-slate-400 hover:text-white"
                   }`}
                 >
-                  {/* Active glass pill */}
                   {isActive && (
                     <motion.span
                       layoutId="navGlassPill"
-                      className="absolute inset-0 rounded-xl border border-emerald-300/25 bg-emerald-300/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_0_24px_rgba(52,211,153,0.18)]"
+                      className="absolute inset-0 rounded-full border border-emerald-300/25 bg-emerald-300/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_0_24px_rgba(52,211,153,0.18)]"
                       transition={{
                         type: "spring",
                         stiffness: 420,
@@ -119,9 +103,7 @@ export default function Navbar() {
                     />
                   )}
 
-                  <span className="relative z-10">
-                    {link.name}
-                  </span>
+                  <span className="relative z-10">{link.name}</span>
                 </a>
               );
             })}
